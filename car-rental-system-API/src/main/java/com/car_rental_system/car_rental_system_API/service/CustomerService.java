@@ -35,4 +35,34 @@ public class CustomerService {
     public Optional<Customer> getCustomerByID(Long id) {
         return customerRepository.findById(id);
     }
+
+    public Optional<Customer> editCustomer(Customer customer, Long id) {
+        return customerRepository.findById(id)
+                .map(existingCustomer ->{
+                    existingCustomer.setCustomerId(customer.getCustomerId());
+                    existingCustomer.setCustomerName(customer.getCustomerName());
+                    existingCustomer.setCustomerPhone(customer.getCustomerPhone());
+                    existingCustomer.setCustomerEmail(customer.getCustomerEmail());
+                    existingCustomer.setCustomerAddress(customer.getCustomerAddress());
+                    existingCustomer.setCustomerCity(customer.getCustomerCity());
+                    existingCustomer.setCustomerState(customer.getCustomerState());
+                    existingCustomer.setCustomerZip(customer.getCustomerZip());
+                    existingCustomer.setCustomerZipCode(customer.getCustomerZipCode());
+                    existingCustomer.setCreatedBy(customer.getCreatedBy());
+                    existingCustomer.setCreatedOn(customer.getCreatedOn());
+                    existingCustomer.setUpdatedBy(customer.getUpdatedBy());
+                    existingCustomer.setUpdatedOn(customer.getUpdatedOn());
+                    return existingCustomer;
+
+                });
+
+    }
+
+    public boolean deleteCustomer(Long id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
