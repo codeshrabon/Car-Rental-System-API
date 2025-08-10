@@ -22,7 +22,7 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping("cars")
+    @GetMapping("/cars")
     public ResponseEntity<List<Car>> getAllCars() {
         List<Car> allCars =  carService.getAllCars();
         System.out.println("User get all the cars");
@@ -30,11 +30,11 @@ public class CarController {
         return ResponseEntity.ok(allCars);
     }
 
-    @PostMapping("cars/addCar")
+    @PostMapping("cars/addCars")
     public ResponseEntity<Void> addCar(@RequestBody List<Car> car) {
         List<Car> addedCars =  carService.addCars(car);
         System.out.println("User add a car");
-        System.out.println(addedCars);
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

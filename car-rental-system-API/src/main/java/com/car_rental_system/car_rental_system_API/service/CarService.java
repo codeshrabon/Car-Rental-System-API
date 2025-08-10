@@ -47,6 +47,10 @@ public class CarService {
                     existingCar.setCarFuel(car.getCarFuel());
                     existingCar.setCarFuelType(car.getCarFuelType());
                     existingCar.setBasePricePerDay(car.getBasePricePerDay());
+                    existingCar.setCreatedBy(car.getCreatedBy());
+                    existingCar.setCreatedOn(car.getCreatedOn());
+                    existingCar.setUpdatedBy(car.getUpdatedBy());
+                    existingCar.setUpdatedOn(car.getUpdatedOn());
                     existingCar.setAvailable(car.isAvailable());
 
                     return carRepository.save(existingCar);
