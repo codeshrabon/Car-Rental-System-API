@@ -40,7 +40,35 @@ public class CarController {
 
     @GetMapping("cars/{id}")
     public ResponseEntity<Optional<Car>> getCarById(@PathVariable Long id) {
+        System.out.println("User get Car by id: " + id);
         Optional<Car> findCarById = carService.findCarsById(id);
+        System.out.println(findCarById);
         return ResponseEntity.status(HttpStatus.FOUND).body(findCarById);
     }
+
+    @PutMapping("cars/update/{id}")
+    public ResponseEntity<Optional<Car>> updateCar(@PathVariable Long id, @RequestBody Car car) {
+
+        System.out.println("User update Car by id: " + id);
+            Optional<Car> updatedCar = carService.updateCarbyId(car,id);
+           if (updatedCar.isPresent()) {
+               System.out.println(updatedCar.get());
+               return ResponseEntity.ok(updatedCar);
+           }else  {
+               return ResponseEntity.notFound().build();
+           }
+
+    }
+
+    @DeleteMapping("cars/delete/{id}")
+    public ResponseEntity<String> deleteCar(@PathVariable Long id) {
+        boolean isDeleted = carService.deleteCarById(id);
+        if (isDeleted) {
+            return ResponseEntity.ok("Car deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Car with id " + id + " not found.");
+        }
+    }
+
 }

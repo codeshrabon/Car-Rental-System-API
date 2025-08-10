@@ -32,4 +32,33 @@ public class CarService {
         return carRepository.findById(id);
     }
 
+    //update the car by its id
+    public Optional<Car> updateCarbyId(Car car, Long id) {
+        return carRepository.findById(id)
+                .map(existingCar -> {
+                    existingCar.setCarId(car.getCarId());
+                    existingCar.setCarModel(car.getCarModel());
+                    existingCar.setCarColor(car.getCarColor());
+                    existingCar.setCarLicensePlate(car.getCarLicensePlate());
+                    existingCar.setCarSize(car.getCarSize());
+                    existingCar.setCarPrice(car.getCarPrice());
+                    existingCar.setCarYear(car.getCarYear());
+                    existingCar.setCarMake(car.getCarMake());
+                    existingCar.setCarFuel(car.getCarFuel());
+                    existingCar.setCarFuelType(car.getCarFuelType());
+                    existingCar.setBasePricePerDay(car.getBasePricePerDay());
+                    existingCar.setAvailable(car.isAvailable());
+
+                    return carRepository.save(existingCar);
+                });
+    }
+
+    public boolean deleteCarById(Long id) {
+        if (carRepository.existsById(id)) {
+            carRepository.deleteById(id);
+            return true;  // deletion successful
+        }
+        return false; // car with id not found
+    }
+
 }
