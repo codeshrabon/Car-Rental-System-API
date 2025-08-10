@@ -1,7 +1,10 @@
 package com.car_rental_system.car_rental_system_API.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.Date;
 
 
 @Entity
@@ -21,6 +24,14 @@ public class Customer {
     private String customerState;
     private String customerZip;
     private String customerZipCode;
+    private String createdBy;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdOn;
+
+    private String updatedBy;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedOn;
 
 
 }
