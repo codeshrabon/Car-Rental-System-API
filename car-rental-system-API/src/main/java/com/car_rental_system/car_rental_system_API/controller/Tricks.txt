@@ -1,0 +1,77 @@
+for Rental
+
+1. first i need all the rental that has been happen  XX
+2. get rental car by searching the id or name
+3. here it will show rental detail
+    which customer has rented which car.
+    car detail-> by carBrand
+        show  -> car.carBrand
+              -> car.Model
+              -> car.ifAvailable
+              -> car.carPricePerDay
+
+              --CUSTOMER SAYS YES
+
+
+              -> car.CarID
+                            -> car.carLicensePlate
+                            -> car.carFuel
+                            -> car.carFuelType
+                            ->
+                            ->
+                            -> car.carNumber
+                            -> car.car
+
+
+                        IF yes
+              -> total = car.carPricePerDay (2000 taka) + customer stays time (5 days) = 10000 taka
+
+              TAKE,
+
+              total travel days -> private final TravelDay travelDays
+
+                 -> Travel_Cost -> Long travelCost;
+                    travelCost -> car.carPricePerDay + travel.travelDay
+                 -> Total_Cost -> Long totalCost
+                    totalCost  -> travelCost * travelVat 15%
+                 SHOW
+                 Total Cost = totalCost
+
+
+              NOW,  private final Customer customer
+
+              get set == take customer name = customer.customerName
+                                -> customer.customerMail
+                                -> customer.customerPhone
+                                -> customer.customerAddress
+                                -> customer.customerCity
+                                -> customer.customerState
+                                -> customer.customerZip
+                                -> customer.customerZipCode
+
+                        ALL done above
+              NOW SHOW
+                        Total Cost =
+
+    how many car he need
+    for how many days
+    is he want to rent today
+    or is he want to rent for future
+    how many people will be in the car
+    what kind of lugets they gonna carry
+    who will be the driver.
+    driver driving licence
+    is it vallid
+    driving licence number
+
+
+    where is the destination
+    calculate how far with map = show the destination length
+    when they gonna come back
+
+    is that car is active ? or not ?
+
+    which car
+    show total cost for rental for that car = bech price per day
+
+
