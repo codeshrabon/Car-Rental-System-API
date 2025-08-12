@@ -80,7 +80,7 @@ public class RentalCLI implements CommandLineRunner {
         car.setBasePricePerDay(Double.parseDouble(scanner.nextLine()));
         car.setAvailable(true);
 
-        carService.addCars(List.of(car));
+        carService.addCar(car);
         System.out.println("✅ Car added successfully.");
     }
 
@@ -102,21 +102,26 @@ public class RentalCLI implements CommandLineRunner {
     private void rentCar() {
         System.out.print("Enter Customer ID: ");
         String custId = scanner.nextLine();
-        Customer customer = customerService.getAllCustomers().stream()
+        /*Customer customer = customerService.getAllCustomers().stream()
                 .filter(c -> c.getCustomerId().equals(custId))
-                .findFirst().orElse(null);
+                .findFirst().orElse(null);*/
+        Customer customer = customerService.addCustomer(new Customer());
 
-        if (customer == null) {
+        /*if (customer == null) {
             System.out.println("Customer not found!");
             return;
-        }
+        }*/
 
         System.out.print("Enter Car ID: ");
         String carId = scanner.nextLine();
-        Car car = carService.getAllCars().stream()
+        /*Car car = carService.getAllCars().stream()
+                .filter(c -> c.getCarId().equals(carId) && c.isAvailable())
+                .findFirst().orElse(null);*/
+
+        Car car = carService.addCar(new Car());
+        car = carService.getAllCars().stream()
                 .filter(c -> c.getCarId().equals(carId) && c.isAvailable())
                 .findFirst().orElse(null);
-
         if (car == null) {
             System.out.println("Car not available or not found!");
             return;

@@ -25,7 +25,12 @@ public class CarService {
     public List<Car> addCars(List<Car> car) {
 
 
+
         return carRepository.saveAll(car);
+    }
+
+    public Car addCar(Car car) {
+        return carRepository.save(car);
     }
 
     //finding car by its ID

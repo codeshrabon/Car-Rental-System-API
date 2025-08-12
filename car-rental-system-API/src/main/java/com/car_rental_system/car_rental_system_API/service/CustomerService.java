@@ -28,8 +28,14 @@ public class CustomerService {
     }
 
 
+    //add customer from postman
     public List<Customer> addCustomers(List<Customer> customer) {
         return customerRepository.saveAll(customer);
+    }
+
+    //add customer by admin
+    public Customer addCustomer(Customer customer) {
+        return customerRepository.save(customer);
     }
 
     public Optional<Customer> getCustomerByID(Long id) {

@@ -91,6 +91,7 @@ public class RentalService {
 
     }
 
+
     public Rental updateRental(Long id, Rental rental) {
         return rentalRepository.findById(id)
                 .map(rent -> {
