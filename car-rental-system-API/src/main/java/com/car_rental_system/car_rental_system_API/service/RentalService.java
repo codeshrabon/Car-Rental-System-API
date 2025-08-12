@@ -113,4 +113,8 @@ public class RentalService {
     public void deleteRental(Long id) {
         rentalRepository.deleteById(id);
     }
+
+    public void createRentals(Rental rental) {
+        rentalRepository.save(rental);
+    }
 }

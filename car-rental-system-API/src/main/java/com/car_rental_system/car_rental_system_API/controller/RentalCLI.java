@@ -8,27 +8,31 @@ import com.car_rental_system.car_rental_system_API.service.CustomerService;
 import com.car_rental_system.car_rental_system_API.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
+@Component
 public class RentalCLI implements CommandLineRunner {
 
+    private final CarService carService;
+    private final CustomerService customerService;
+    private final RentalService rentalService;
+    private final Scanner scanner = new Scanner(System.in);
 
-
-    private static CarService carService;
-    private static CustomerService customerService;
-    private static RentalService rentalService;
-
-    private static Scanner scanner = new Scanner(System.in);
-
+    @Autowired
     public RentalCLI(CarService carService, CustomerService customerService, RentalService rentalService) {
         this.carService = carService;
         this.customerService = customerService;
         this.rentalService = rentalService;
     }
 
-
-    public static void main(String[] args) {
+    @Override
+    public void run(String... args) {
         boolean running = true;
 
         while (running) {
@@ -40,7 +44,13 @@ public class RentalCLI implements CommandLineRunner {
             System.out.println("5. Exit");
             System.out.print("Choose an option: ");
 
-            int choice = Integer.parseInt(scanner.nextLine());
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number.");
+                continue;
+            }
 
             switch (choice) {
                 case 1 -> addCar();
@@ -53,7 +63,7 @@ public class RentalCLI implements CommandLineRunner {
         }
     }
 
-    private static void addCar() {
+    private void addCar() {
         Car car = new Car();
         System.out.print("Car ID: "); car.setCarId(scanner.nextLine());
         System.out.print("Brand: "); car.setCarBrand(scanner.nextLine());
@@ -66,14 +76,15 @@ public class RentalCLI implements CommandLineRunner {
         System.out.print("Make: "); car.setCarMake(scanner.nextLine());
         System.out.print("Fuel: "); car.setCarFuel(scanner.nextLine());
         System.out.print("Fuel Type: "); car.setCarFuelType(scanner.nextLine());
-        System.out.print("Base Price Per Day: "); car.setBasePricePerDay(Double.parseDouble(scanner.nextLine()));
+        System.out.print("Base Price Per Day: ");
+        car.setBasePricePerDay(Double.parseDouble(scanner.nextLine()));
         car.setAvailable(true);
-        carService.addCars(car);
 
-        System.out.println("Car added successfully.");
+        carService.addCars(List.of(car));
+        System.out.println("✅ Car added successfully.");
     }
 
-    private static void addCustomer() {
+    private void addCustomer() {
         Customer customer = new Customer();
         System.out.print("Customer ID: "); customer.setCustomerId(scanner.nextLine());
         System.out.print("Name: "); customer.setCustomerName(scanner.nextLine());
@@ -83,15 +94,15 @@ public class RentalCLI implements CommandLineRunner {
         System.out.print("City: "); customer.setCustomerCity(scanner.nextLine());
         System.out.print("State: "); customer.setCustomerState(scanner.nextLine());
         System.out.print("Zip: "); customer.setCustomerZip(scanner.nextLine());
-        customerService.addCustomers(customer);
 
-        System.out.println("Customer added successfully.");
+        customerService.addCustomers(List.of(customer));
+        System.out.println(" Customer added successfully.");
     }
 
-    private static void rentCar() {
+    private void rentCar() {
         System.out.print("Enter Customer ID: ");
         String custId = scanner.nextLine();
-        Customer customer = customerService.stream()
+        Customer customer = customerService.getAllCustomers().stream()
                 .filter(c -> c.getCustomerId().equals(custId))
                 .findFirst().orElse(null);
 
@@ -102,7 +113,7 @@ public class RentalCLI implements CommandLineRunner {
 
         System.out.print("Enter Car ID: ");
         String carId = scanner.nextLine();
-        Car car = carService.stream()
+        Car car = carService.getAllCars().stream()
                 .filter(c -> c.getCarId().equals(carId) && c.isAvailable())
                 .findFirst().orElse(null);
 
@@ -115,26 +126,38 @@ public class RentalCLI implements CommandLineRunner {
         rental.setCar(car);
         rental.setCustomer(customer);
 
-        System.out.print("Enter rental start date (yyyy-MM-dd): ");
-        rentalService.setRenalStartDate(scanner.nextLine());
-        System.out.print("Enter rental end date (yyyy-MM-dd): ");
-        rental.setEndDate(scanner.nextLine());
+        try {
+            System.out.print("Enter rental start date (yyyy-MM-dd): ");
+            rental.setRentalStartDate(parseDate(scanner.nextLine()));
+
+            System.out.print("Enter rental end date (yyyy-MM-dd): ");
+            rental.setRentalEndDate(parseDate(scanner.nextLine()));
+        } catch (ParseException e) {
+            System.out.println("Invalid date format.");
+            return;
+        }
+
         System.out.print("Payment Method: ");
         rental.setPaymentMethod(scanner.nextLine());
+        rental.setPaymentComplete(false);
 
         car.setAvailable(false);
-        rentalService.(rental);
+        rentalService.createRentals(rental);
 
-        System.out.println("\n✅ Rental Processed Successfully! Receipt:");
+        System.out.println("\n✅ Rental Processed Successfully!");
         System.out.println(rental);
     }
 
-    private static void viewRentals() {
-        rentals.forEach(System.out::println);
+    private void viewRentals() {
+        List<Rental> rentals = rentalService.getAllRentals();
+        if (rentals.isEmpty()) {
+            System.out.println("No rentals found.");
+        } else {
+            rentals.forEach(System.out::println);
+        }
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-
+    private Date parseDate(String dateStr) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
     }
 }
