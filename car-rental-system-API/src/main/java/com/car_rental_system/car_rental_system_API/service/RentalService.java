@@ -95,6 +95,7 @@ public class RentalService {
     public Rental updateRental(Long id, Rental rental) {
         return rentalRepository.findById(id)
                 .map(rent -> {
+                    rent.setCreatedOn(rental.getCreatedOn());
                     rent.setRentalStartDate(rental.getRentalStartDate());
                     rent.setRentalEndDate(rental.getRentalEndDate());
                     rent.setRentalStatus(rental.getRentalStatus());

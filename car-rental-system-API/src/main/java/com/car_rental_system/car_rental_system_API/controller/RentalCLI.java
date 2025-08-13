@@ -64,42 +64,69 @@ public class RentalCLI implements CommandLineRunner {
     }
 
     private Car addCar() {
-        Car car = new Car();
-        System.out.print("Car ID: "); car.setCarId(scanner.nextLine());
-        System.out.print("Brand: "); car.setCarBrand(scanner.nextLine());
-        System.out.print("Model: "); car.setCarModel(scanner.nextLine());
-        System.out.print("Color: "); car.setCarColor(scanner.nextLine());
-        System.out.print("License Plate: "); car.setCarLicensePlate(scanner.nextLine());
-        System.out.print("Size: "); car.setCarSize(scanner.nextLine());
-        System.out.print("Price: "); car.setCarPrice(scanner.nextLine());
-        System.out.print("Year: "); car.setCarYear(scanner.nextLine());
-        System.out.print("Make: "); car.setCarMake(scanner.nextLine());
-        System.out.print("Fuel: "); car.setCarFuel(scanner.nextLine());
-        System.out.print("Fuel Type: "); car.setCarFuelType(scanner.nextLine());
-        System.out.print("Base Price Per Day: ");
-        car.setBasePricePerDay(Double.parseDouble(scanner.nextLine()));
-        car.setAvailable(true);
+        try {
+            Car car = new Car();
+            System.out.print("Car ID: ");
+            car.setCarId(scanner.nextLine());
+            System.out.print("Brand: ");
+            car.setCarBrand(scanner.nextLine());
+            System.out.print("Model: ");
+            car.setCarModel(scanner.nextLine());
+            System.out.print("Color: ");
+            car.setCarColor(scanner.nextLine());
+            System.out.print("License Plate: ");
+            car.setCarLicensePlate(scanner.nextLine());
+            System.out.print("Size: ");
+            car.setCarSize(scanner.nextLine());
+            System.out.print("Price: ");
+            car.setCarPrice(scanner.nextLine());
+            System.out.print("Year: ");
+            car.setCarYear(scanner.nextLine());
+            System.out.print("Make: ");
+            car.setCarMake(scanner.nextLine());
+            System.out.print("Fuel: ");
+            car.setCarFuel(scanner.nextLine());
+            System.out.print("Fuel Type: ");
+            car.setCarFuelType(scanner.nextLine());
+            System.out.print("Base Price Per Day: ");
+            car.setBasePricePerDay(Double.parseDouble(scanner.nextLine()));
+            car.setAvailable(true);
 
-        carService.addCar(car);
-        System.out.println("✅ Car added successfully.");
-        return car;
+            carService.addCar(car);
+            System.out.println("✅ Car added successfully.");
+            return car;
+        } catch (NumberFormatException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Customer addCustomer() {
-        Customer customer = new Customer();
-        System.out.print("Customer ID: "); customer.setCustomerId(scanner.nextLine());
-        System.out.print("Name: "); customer.setCustomerName(scanner.nextLine());
-        System.out.print("Email: "); customer.setCustomerEmail(scanner.nextLine());
-        System.out.print("Phone: "); customer.setCustomerPhone(scanner.nextLine());
-        System.out.print("Address: "); customer.setCustomerAddress(scanner.nextLine());
-        System.out.print("City: "); customer.setCustomerCity(scanner.nextLine());
-        System.out.print("State: "); customer.setCustomerState(scanner.nextLine());
-        System.out.print("Zip: "); customer.setCustomerZip(scanner.nextLine());
+        try {
+            Customer customer = new Customer();
+            System.out.print("Customer ID: ");
+            customer.setCustomerId(scanner.nextLine());
+            System.out.print("Name: ");
+            customer.setCustomerName(scanner.nextLine());
+            System.out.print("Email: ");
+            customer.setCustomerEmail(scanner.nextLine());
+            System.out.print("Phone: ");
+            customer.setCustomerPhone(scanner.nextLine());
+            System.out.print("Address: ");
+            customer.setCustomerAddress(scanner.nextLine());
+            System.out.print("City: ");
+            customer.setCustomerCity(scanner.nextLine());
+            System.out.print("State: ");
+            customer.setCustomerState(scanner.nextLine());
+            System.out.print("Zip: ");
+            customer.setCustomerZip(scanner.nextLine());
 
-        customerService.addCustomers(List.of(customer));
-        System.out.println(" Customer added successfully.");
+            customerService.addCustomers(List.of(customer));
+            System.out.println(" Customer added successfully.");
 
-        return customer;
+            return customer;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void rentCar() {
@@ -157,11 +184,15 @@ public class RentalCLI implements CommandLineRunner {
     }
 
     private void viewRentals() {
-        List<Rental> rentals = rentalService.getAllRentals();
-        if (rentals.isEmpty()) {
-            System.out.println("No rentals found.");
-        } else {
-            rentals.forEach(System.out::println);
+        try {
+            List<Rental> rentals = rentalService.getAllRentals();
+            if (rentals.isEmpty()) {
+                System.out.println("No rentals found.");
+            } else {
+                rentals.forEach(System.out::println);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

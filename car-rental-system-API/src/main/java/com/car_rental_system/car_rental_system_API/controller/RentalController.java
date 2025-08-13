@@ -24,16 +24,24 @@ public class RentalController {
     //get all rental car
     @GetMapping("/rentals/rentedCar")
     public ResponseEntity<List<Rental>> getAllRentals() {
-        List<Rental> allRentedInfo = rentalService.getAllRentals();
-        return new ResponseEntity<>( allRentedInfo ,HttpStatus.FOUND);
+        try {
+            List<Rental> allRentedInfo = rentalService.getAllRentals();
+            return new ResponseEntity<>( allRentedInfo ,HttpStatus.FOUND);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //get rental info by ID
     @GetMapping("/rentals/rentalCars/{id}")
     public ResponseEntity<Rental> getRentalById(@PathVariable Long id) {
-        return rentalService.getRentalById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        try {
+            return rentalService.getRentalById(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -42,22 +50,34 @@ public class RentalController {
     public ResponseEntity<Rental> createRental(@PathVariable Long carId,
                                                @PathVariable Long customerId,
                                                @RequestBody Rental rental) {
-        Rental created = rentalService.createRental(carId, customerId, rental);
-        return ResponseEntity.ok(created);
+        try {
+            Rental created = rentalService.createRental(carId, customerId, rental);
+            return ResponseEntity.ok(created);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //update rental by id
     @PutMapping("/rentals/{id}")
     public ResponseEntity<Rental> updateRental(@PathVariable Long id, @RequestBody Rental rental) {
-        Rental updated = rentalService.updateRental(id, rental);
-        return ResponseEntity.ok(updated);
+        try {
+            Rental updated = rentalService.updateRental(id, rental);
+            return ResponseEntity.ok(updated);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // delete rent by id
     @DeleteMapping("/rentals/{id}")
     public ResponseEntity<Void> deleteRental(@PathVariable Long id) {
-        rentalService.deleteRental(id);
-        return ResponseEntity.noContent().build();
+        try {
+            rentalService.deleteRental(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
